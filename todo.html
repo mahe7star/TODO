@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>ToDo</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" href="font-awesome-4.7.0\css\font-awesome.min.css">
+  <script type="text/javascript" src="main.js"></script>
+</head>
+<body>
+  <div class="header">
+    <h2>ToDo List</h2>
+    <input type="text" id="mainTxt" class="input" name="input" placeholder="Enter title here..">
+    <span onclick="newElement()" class="addBtn" id="Add"><i class="fa fa-plus" aria-hidden="true"></i></span>
+    
+  </div>
+
+<!--end of header div-->
+<div id="list">
+  <ul class="mainUl" id="myUL">
+    <li>Make a todo list
+       <ul>
+         <li>make sub points
+            <ul>
+              <li>make sub-sub point</li>
+            </ul>
+         </li>
+       </ul>
+    </li>
+   <li>Make a todo list
+       <ul>
+         <li>make sub points
+            <ul>
+              <li>make sub-sub point</li>
+            </ul>
+         </li>
+       </ul>
+    </li>
+    
+  </ul>
+
+  <div id="addNew">
+    <div>
+      <input type="text" name="sub" id="subTxt" placeholder="Enter topic..">
+      <button id="subBtn" onclick="addSub()"><i class="fa fa-check" aria-hidden="true"></i></button>
+      <button onclick="cancel()" class="cancel" id="subCan"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+  </div>
+  <div id="editTopic">
+    <div>
+      <input type="text" name="edit" id="editTxt" placeholder="Enter new topic..">
+      <button onclick="editText()" id="editBtn"><i class="fa fa-pencil" aria-hidden="true"></i></button>
+      <button onclick="cancelEdit()" id="editCan"><i class="fa fa-times" aria-hidden="true"></i></button>
+    </div>
+  </div>
+</div>
+
+<!--edit div-->
+
+
+
+<script type="text/javascript">
+  
+var par;
+var par1;
+// Add a "checked" symbol when clicking on a list item
+var list = document.querySelector('ul');
+list.addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+  }
+}, false);
+
+//adding close,add and edit button to each LI
+
+  var myNodelist = document.getElementsByTagName("LI");
+  var i;
+  for (i = 0; i < myNodelist.length; i++) {
+    var span = document.createElement("SPAN");
+    var txt = document.createTextNode("\u00D7");
+    span.className = "close";
+    span.appendChild(txt);
+    myNodelist[i].appendChild(span);
+
+    var span1=document.createElement("SPAN");
+    var txt1 = document.createTextNode("+");
+    span1.className = "add";
+    span1.appendChild(txt1);
+    myNodelist[i].appendChild(span1);
+
+    var span2=document.createElement("SPAN");
+    var txt2 = document.createTextNode("Edit");
+    span2.className = "edit";
+    span2.appendChild(txt2);
+    myNodelist[i].appendChild(span2);
+}
+//close button
+var close = document.getElementsByClassName("close");
+var i;
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+  }
+}
+
+//add button
+var add = document.getElementsByClassName("add");
+var i;
+for (i = 0; i < add.length; i++) {
+  add[i].onclick = function() {
+    var y = document.getElementById('addNew');
+    y.style.display = "block";
+    par=this.parentElement;
+  }
+}
+//edit button
+var edit = document.getElementsByClassName("edit");
+var i;
+for (i = 0; i < edit.length; i++) {
+  edit[i].onclick = function() {
+    var z = document.getElementById('editTopic');
+    z.style.display = "block";
+    par1=this.parentElement;
+  }
+}
+//Add new element
+function newElement() {
+  var li = document.createElement("li");
+  var inputValue = document.getElementById("mainTxt").value;
+  var t = document.createTextNode(inputValue);
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+  document.getElementById("mainTxt").value = "";
+  //close button
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  li.appendChild(span);
+  //add button
+  var span1=document.createElement("SPAN");
+  var txt1 = document.createTextNode("+");
+  span1.className = "add";
+  span1.appendChild(txt1);
+  li.appendChild(span1);
+  //edit
+  var span2=document.createElement("SPAN");
+  var txt2 = document.createTextNode("Edit");
+  span2.className = "edit";
+  span2.appendChild(txt2);
+  li.appendChild(span2);
+
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+
+   for (i = 0; i < add.length; i++) {
+    add[i].onclick = function() {
+       var y = document.getElementById('addNew');
+       y.style.display = "block";
+       par=this.parentElement;
+      }
+  }
+  for (i = 0; i < edit.length; i++) {
+    edit[i].onclick = function() {
+      var z = document.getElementById('editTopic');
+      z.style.display = "block";
+      par1=this.parentElement;
+    }
+  }
+  
+}
+
+
+function addSub(){
+    var inputVal = document.getElementById("subTxt").value;
+     if (inputVal === '') {
+       alert("You must write something!");
+     } 
+  else {
+      document.getElementById("subTxt").value = "";
+      var nestedUl=document.createElement("ul");
+      var li=document.createElement("li");
+      var nestedLi=nestedUl.appendChild(li);
+
+      var t2=document.createTextNode(inputVal);
+      nestedLi.appendChild(t2);
+      par.appendChild(nestedUl);
+      //close button
+      var span = document.createElement("SPAN");
+      var txt = document.createTextNode("\u00D7");
+      span.className = "close";
+      span.appendChild(txt);
+      li.appendChild(span);
+      //add button
+      var span1=document.createElement("SPAN");
+      var txt1 = document.createTextNode("+");
+      span1.className = "add";
+      span1.appendChild(txt1);
+      li.appendChild(span1);
+       //edit
+      var span2=document.createElement("SPAN");
+      var txt2 = document.createTextNode("Edit");
+      span2.className = "edit";
+      span2.appendChild(txt2);
+      li.appendChild(span2);
+
+      for (i = 0; i < close.length; i++) {
+        close[i].onclick = function() {
+          var div = this.parentElement;
+          div.style.display = "none";
+        }
+      }
+
+     for (i = 0; i < add.length; i++) {
+       add[i].onclick = function() {
+         var y = document.getElementById('addNew');
+         y.style.display = "block";
+         par=this.parentElement;
+        }
+      }
+      for (i = 0; i < edit.length; i++) {
+       edit[i].onclick = function() {
+         var z = document.getElementById('editTopic');
+         z.style.display = "block";
+         par1=this.parentElement;
+        }
+      }
+
+      var x = document.getElementById('addNew');
+      x.style.display = "none";
+    }
+   }
+
+function cancel(){
+    var x = document.getElementById('addNew');
+      x.style.display = "none";
+}
+
+function cancelEdit(){
+  var y = document.getElementById('editTopic');
+      y.style.display = "none";
+}
+
+function editText(){
+  var editVal = document.getElementById("editTxt").value;
+  par1.innerText =editVal;
+
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  par1.appendChild(span);
+  //add button
+  var span1=document.createElement("SPAN");
+  var txt1 = document.createTextNode("+");
+  span1.className = "add";
+  span1.appendChild(txt1);
+  par1.appendChild(span1);
+  //edit
+  var span2=document.createElement("SPAN");
+  var txt2 = document.createTextNode("Edit");
+  span2.className = "edit";
+  span2.appendChild(txt2);
+  par1.appendChild(span2);
+  
+ var p = document.getElementById('editTopic');
+  p.style.display = "none";
+}
+
+</script>
+</body>
+</html>
